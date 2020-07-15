@@ -43,4 +43,13 @@ class BaseController extends Controller
 		// $this->session = \Config\Services::session();
 	}
 
+	/**
+	 * render template header,navigation,body and footer
+	 */
+	public function render_pages()
+	{
+		echo view('welcome_message');
+		// return view('welcome_message');
+	}
+
 }

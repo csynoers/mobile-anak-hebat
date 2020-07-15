@@ -4,7 +4,8 @@ class Home extends BaseController
 {
 	public function index()
 	{
-		return view('welcome_message');
+		$this->render_pages();
+		// return view('welcome_message');
 	}
 
 	//--------------------------------------------------------------------
