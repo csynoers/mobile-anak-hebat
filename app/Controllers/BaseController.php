@@ -46,9 +46,20 @@ class BaseController extends Controller
 	/**
 	 * render template header,navigation,body and footer
 	 */
-	public function render_pages()
+	public function render_pages($data=[])
 	{
-		echo view('welcome_message');
+		//--------------------------------------------------------------------
+		// default: title
+		//--------------------------------------------------------------------
+		$title = [
+			'title' => empty($data['title']) ? 'Toko Buku Online' : $data['title']
+		];
+		//--------------------------------------------------------------------
+
+		echo view('template/header',$title);
+		echo view('template/navigation');
+		echo view('template/wrap');
+		echo view('template/footer');
 		// return view('welcome_message');
 	}
 
