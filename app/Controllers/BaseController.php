@@ -55,12 +55,15 @@ class BaseController extends Controller
 			'title' => empty($data['title']) ? 'Toko Buku Online' : $data['title']
 		];
 		//--------------------------------------------------------------------
-
-		echo view('template/header',$title);
-		echo view('template/navigation');
-		echo view('template/wrap');
-		echo view('template/footer');
-		// return view('welcome_message');
+		$data['view'] = empty($data['view']) ? 'welcome_message' : $data['view'] ;
+		$data['rows'] = empty($data['rows']) ? [] : $data['rows'] ;
+		//--------------------------------------------------------------------
+		
+		echo view('layout/header',$title);
+		echo view('layout/navigation');
+		echo view($data['view'],$data['rows']);
+		echo view('layout/navigation_footer');
+		echo view('layout/footer');
 	}
 
 }
