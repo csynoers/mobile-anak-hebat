@@ -20,7 +20,7 @@
           </a>
         </td>
         <td>
-          <a href="<?= base_url() ?>" class="text-white-50">
+          <a href="<?= base_url('auth') ?>" class="text-white-50">
             <i class="fa fa-user-circle" style="font-size:3rem"></i><br>
             <h5>Akun</h5>
           </a>

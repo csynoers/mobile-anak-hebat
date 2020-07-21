@@ -13,11 +13,12 @@
 </div>
 <div class="owl-carousel owl-new-release owl-theme mt-5">
     <?php foreach ($new_release as $key => $value) : ?>
-        <div class="item">
-            <div class="card">
+        <div class="item" title="<?= $value->title ?>">
+            <div class="card border-0">
                 <img class="card-img-top" src="https://anakhebatindonesia.com/joimg/book/small/small_<?= $value->image ?>" alt="Card image" style="width:100%">
-                <div class="card-body">
-                    <a href="#" class="btn btn-primary stretched-link"><h4 class="card-title"><?= $value->title ?></h4></a>
+                <div class="card-body text-center">
+                    <a href="<?= base_url("/book/detail/{$value->id_book}/{$value->seo}") ?>" class="stretched-link"><h6 class="card-title"><?= character_limiter($value->title, $limit = 15, $end_char = '&#8230;') ?></h6></a>
+                    <p><?= $value->hargaMod ?></p>
                 </div>
             </div>
         </div>
@@ -31,8 +32,14 @@
 </div>
 <div class="owl-carousel owl-coming-soon owl-theme mt-5">
     <?php foreach ($coming_soon as $key => $value) : ?>
-        <div class="item">
-            <img src="https://anakhebatindonesia.com/joimg/book/small/small_<?= $value->image ?>" alt="">
+        <div class="item" title="<?= $value->title ?>">
+            <div class="card border-0">
+                <img class="card-img-top" src="https://anakhebatindonesia.com/joimg/book/small/small_<?= $value->image ?>" alt="Card image" style="width:100%">
+                <div class="card-body text-center">
+                    <a href="<?= base_url("/book/detail/{$value->id_book}/{$value->seo}") ?>" class="stretched-link"><h6 class="card-title"><?= character_limiter($value->title, $limit = 15, $end_char = '&#8230;') ?></h6></a>
+                    <p><?= $value->hargaMod ?></p>
+                </div>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>
@@ -44,8 +51,14 @@
 </div>
 <div class="owl-carousel owl-best-seller owl-theme mt-5">
     <?php foreach ($best_seller as $key => $value) : ?>
-        <div class="item">
-            <img src="https://anakhebatindonesia.com/joimg/book/small/small_<?= $value->image ?>" alt="">
+        <div class="item" title="<?= $value->title ?>">
+            <div class="card border-0">
+                <img class="card-img-top" src="https://anakhebatindonesia.com/joimg/book/small/small_<?= $value->image ?>" alt="Card image" style="width:100%">
+                <div class="card-body text-center">
+                    <a href="<?= base_url("/book/detail/{$value->id_book}/{$value->seo}") ?>" class="stretched-link"><h6 class="card-title"><?= character_limiter($value->title, $limit = 15, $end_char = '&#8230;') ?></h6></a>
+                    <p><?= $value->hargaMod ?></p>
+                </div>
+            </div>
         </div>
     <?php endforeach; ?>
 </div>

@@ -7,6 +7,7 @@ class Home extends BaseController
 {
 	public function index()
 	{
+		helper('text');
 		$tes = new Tes();
 		$books = new Books();
 

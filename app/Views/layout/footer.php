@@ -1,3 +1,4 @@
+    <div style="height:6rem"></div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Bootstrap JS -->
     <script src="<?= base_url() ?>/bootstrap/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
