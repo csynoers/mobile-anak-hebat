@@ -76,8 +76,9 @@ class Books extends ResourceController
         $get = $this->model->getBooks($id);
 
         // ------------------------------------------------------------------------
-        // get data penerbit and kategori
+        // get data authors, penerbit and kategori
         // ------------------------------------------------------------------------
+        $get->authors = $this->getAuthors($get->id_author);
         $get->penerbit = $this->getPenerbit($get->id_unit_usaha);
         $get->kategori = $this->getKategori($get->id_sub_kat_imprint);
 
@@ -98,6 +99,25 @@ class Books extends ResourceController
             ];
         }
         return $this->respond($response, $code);
+    }
+
+    protected function getAuthors($id)
+    {
+        # generate where in
+        $id = array_filter(explode(',',$id), 'strlen');
+
+        $authorModel = new \App\Models\Author_model();
+        $rows = $authorModel->whereIn('id_author',$id)->findAll();
+
+        foreach ($rows as $key => $value) {
+            $rows_all[] = [
+                'id'                => intval($value['id_author']),
+                'title'             => $value['name'],
+                'seo'               => $value['seo'],
+            ];
+        }
+
+        return $rows_all;
     }
 
     protected function getPenerbit($id)
