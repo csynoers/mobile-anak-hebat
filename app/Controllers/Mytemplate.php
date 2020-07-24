@@ -21,6 +21,7 @@ class Books extends ResourceController
         if ( $get_release ) {
             $this->model->where($release[$get_release], $release[$get_release]);
         }
+
         // ------------------------------------------------------------------------
         // limit rows with pagination
         // ------------------------------------------------------------------------
@@ -33,11 +34,8 @@ class Books extends ResourceController
         // ------------------------------------------------------------------------
         foreach ($rows as $key => $value) {
             $rows_all['rows'][] = [
-                'id'                => intval($value['id_book']),
-                'unit_usaha'        => [
-                    'id'    => intval($value['id_unit_usaha']),
-                    'rows'  => $this->get_unit_usaha($value['id_unit_usaha'])
-                ],
+                'id_book'           => intval($value['id_book']),
+                'id_unit_usaha'     => intval($value['id_unit_usaha']),
                 'id_sub_kat_imprint'=> intval($value['id_sub_kat_imprint']),
                 'title'             => $value['title'],
                 'seo'               => $value['seo'],
@@ -49,8 +47,7 @@ class Books extends ResourceController
                 'sinopsis'          => $value['sinopsis'],
                 'keunggulan'        => $value['keunggulan'],
                 'image'             => [
-                    'origin'    => "https://anakhebatindonesia.com/joimg/book/{$value['image']}",
-                    'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}"
+                    'origin' => $value['image']
                 ],
                 'stok'              => $value['stok'],
                 'harga'             => intval($value['harga']),
@@ -64,8 +61,40 @@ class Books extends ResourceController
                 'jenis_cover'       => $value['jenis_cover'],
             ];
         }
-        print_r($rows_all);
-        // return $this->respond($rows_all,200);
+        // print_r($rows_all);
+        return $this->respond($rows_all,200);
+    }
+
+    public function create()
+    {
+        $validation =  \Config\Services::validation();
+        $name   = $this->request->getPost('title');
+        $seo = $this->request->getPost('seo');
+        
+        $data = [
+            'title' => $name,
+            'seo' => $seo
+        ];
+        
+        if($validation->run($data, 'books_insert') == FALSE){
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'data' => $validation->getErrors(),
+            ];
+            return $this->respond($response, 500);
+        } else {
+            $simpan = $this->model->insertBooks($data);
+            if($simpan){
+                $msg = ['message' => 'Created Book successfully'];
+                $response = [
+                    'status' => 200,
+                    'error' => false,
+                    'data' => $msg,
+                ];
+                return $this->respond($response, 200);
+            }
+        }
     }
 
     public function show($id = NULL)
@@ -89,31 +118,76 @@ class Books extends ResourceController
         }
         return $this->respond($response, $code);
     }
-
-    protected function get_unit_usaha($id)
+    
+    public function edit($id = NULL)
     {
-        $unitUsahaModel = new \App\Models\Unit_usaha_model();
-        $rows = $unitUsahaModel->where('id_unit_usaha',$id)->findAll();
-
-        foreach ($rows as $key => $value) {
-            $rows_all[] = [
-                'id'                => intval($value['id_unit_usaha']),
-                'id_kat_unit_usaha' => intval($value['id_kat_unit_usaha']),
-                'title'             => $value['title'],
-                'content'           => $value['content'],
-                'image'             => $value['image'],
-                'date'              => $value['date'],
-                'seo'               => $value['seo'],
-                'disc_value'        => $value['disc_value'],
+        $get = $this->model->getBooks($id);
+        if($get){
+            $code = 200;
+            $response = [
+                'status' => $code,
+                'error' => false,
+                'data' => $get,
+            ];
+        } else {
+            $code = 401;
+            $msg = ['message' => 'Not Found'];
+            $response = [
+                'status' => $code,
+                'error' => true,
+                'data' => $msg,
             ];
         }
-
-        return $rows_all;
+        return $this->respond($response, $code);
     }
 
-    // protected function get_unit_usaha($id)
-    // {
-    //     $slideModel = new \App\Models\Slide_model();
-    //     return $slideModel->find($id);
-    // }
+    public function update($id = NULL)
+    {
+        $validation =  \Config\Services::validation();
+        // getRawInput() digunakan untuk menangkap data dari method PUT,DELETE,PATCH
+        $data   = $this->request->getRawInput();
+
+        if($validation->run($data, 'books_update') == FALSE){
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'data' => $validation->getErrors(),
+            ];
+            return $this->respond($response, 500);
+        } else {
+            $simpan = $this->model->updateBooks($data,$id);
+            if($simpan){
+                $msg = ['message' => 'Updated book successfully'];
+                $response = [
+                    'status' => 200,
+                    'error' => false,
+                    'data' => $msg,
+                ];
+                return $this->respond($response, 200);
+            }
+        }
+    }
+
+    public function delete($id = NULL)
+    {
+        $hapus = $this->model->deleteBooks($id);
+        if($hapus){
+            $code = 200;
+            $msg = ['message' => 'Deleted book successfully'];
+            $response = [
+                'status' => $code,
+                'error' => false,
+                'data' => $msg,
+            ];
+        } else {
+            $code = 401;
+            $msg = ['message' => 'Not Found'];
+            $response = [
+                'status' => $code,
+                'error' => true,
+                'data' => $msg,
+            ];
+        }
+        return $this->respond($response, $code);
+    }    
 }
