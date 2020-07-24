@@ -57,14 +57,31 @@ class Books extends ResourceController
                     'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}"
                 ],
                 'stok'              => $value['stok'],
-                'harga'             => intval($value['harga']),
-                'diskon'            => intval($value['diskon']),
+                'price'             => [
+                    'idr' => [
+                        'value' => intval($value['harga']),
+                        'text'  => $this->currencyIDR($value['harga']),
+                    ]
+                ],
+                'discount'          => [
+                    'value' => intval($value['diskon']),
+                    'text'  => "{$value['diskon']}%",
+                    'price' => [
+                        'idr' => [
+                            'value'     => $value['harga']-($value['harga']*$value['diskon'])/100,
+                            'text'      => $this->currencyIDR($value['harga']-($value['harga']*$value['diskon'])/100)
+                        ]
+                    ]
+                ],
                 'best_seller'       => $value['best_seller'],
                 'coming_soon'       => $value['coming_soon'],
                 'new_release'       => $value['new_release'],
                 'status'            => $value['status'],
                 'date'              => $value['date'],
-                'berat'             => floatval($value['berat']),
+                'weight'             => [
+                    'kg'    => floatval($value['berat']),
+                    'gram'  => floatval($value['berat'])*1000
+                ],
                 'jenis_cover'       => $value['jenis_cover'],
             ];
         }
@@ -74,6 +91,34 @@ class Books extends ResourceController
     public function show($id = NULL)
     {
         $get = $this->model->getBooks($id);
+
+        // ------------------------------------------------------------------------
+        // modification image value
+        // ------------------------------------------------------------------------
+        $get->image = [
+            'origin'    => "https://anakhebatindonesia.com/joimg/book/{$get->image}",
+            'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$get->image}"
+        ];
+        $get->price = [
+            'idr' => [
+                'value' => intval($get->harga),
+                'text'  => $this->currencyIDR($get->harga),
+            ]
+        ];
+        $get->discount = [
+            'value' => intval($get->diskon),
+            'text'  => "{$get->diskon}%",
+            'price' => [
+                'idr' => [
+                    'value'     => $get->harga-($get->harga*$get->diskon)/100,
+                    'text'      => $this->currencyIDR($get->harga-($get->harga*$get->diskon)/100)
+                ]
+            ]
+        ];
+        $get->weight = [
+            'kg'    => floatval($get->berat),
+            'gram'  => floatval($get->berat)*1000
+        ];
 
         // ------------------------------------------------------------------------
         // get data authors, penerbit and kategori
@@ -150,6 +195,13 @@ class Books extends ResourceController
         }
 
         return $rows_all;
+    }
+
+    protected function currencyIDR($angka){
+	
+        $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
+        return $hasil_rupiah;
+     
     }
  
 }
