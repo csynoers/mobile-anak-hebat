@@ -68,13 +68,19 @@ class Books extends ResourceController
                 'jenis_cover'       => $value['jenis_cover'],
             ];
         }
-        // print_r($rows_all);
         return $this->respond($rows_all,200);
     }
 
     public function show($id = NULL)
     {
         $get = $this->model->getBooks($id);
+
+        // ------------------------------------------------------------------------
+        // get data penerbit and kategori
+        // ------------------------------------------------------------------------
+        $get->penerbit = $this->getPenerbit($get->id_unit_usaha);
+        $get->kategori = $this->getKategori($get->id_sub_kat_imprint);
+
         if($get){
             $code = 200;
             $response = [
@@ -94,7 +100,7 @@ class Books extends ResourceController
         return $this->respond($response, $code);
     }
 
-    protected function get_unit_usaha($id)
+    protected function getPenerbit($id)
     {
         $unitUsahaModel = new \App\Models\Unit_usaha_model();
         $rows = $unitUsahaModel->where('id_unit_usaha',$id)->findAll();
@@ -102,30 +108,22 @@ class Books extends ResourceController
         foreach ($rows as $key => $value) {
             $rows_all[] = [
                 'id'                => intval($value['id_unit_usaha']),
-                'kat_unit_usaha'    => [
-                    'id'    => intval($value['id_kat_unit_usaha']),
-                    'rows'  => $this->get_kat_unit_usaha($value['id_kat_unit_usaha'])
-                ],
                 'title'             => $value['title'],
-                'content'           => $value['content'],
-                'image'             => $value['image'],
-                'date'              => $value['date'],
                 'seo'               => $value['seo'],
-                'disc_value'        => $value['disc_value'],
             ];
         }
 
         return $rows_all;
     }
 
-    protected function get_kat_unit_usaha($id)
+    protected function getKategori($id)
     {
-        $katUnitUsahaModel = new \App\Models\Kat_unit_usaha_model();
-        $rows = $katUnitUsahaModel->where('id_kat_unit_usaha',$id)->findAll();
+        $kategori = new \App\Models\Sub_kat_imprint_model();
+        $rows = $kategori->where('id_sub_kat_imprint',$id)->findAll();
 
         foreach ($rows as $key => $value) {
             $rows_all[] = [
-                'id'                => intval($value['id_kat_unit_usaha']),
+                'id'                => intval($value['id_sub_kat_imprint']),
                 'title'             => $value['title'],
                 'seo'               => $value['seo']
             ];
@@ -133,10 +131,5 @@ class Books extends ResourceController
 
         return $rows_all;
     }
-
-    // protected function get_unit_usaha($id)
-    // {
-    //     $slideModel = new \App\Models\Slide_model();
-    //     return $slideModel->find($id);
-    // }
+ 
 }
