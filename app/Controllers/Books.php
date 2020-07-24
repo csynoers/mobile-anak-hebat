@@ -9,14 +9,29 @@ class Books extends ResourceController
 
     public function index()
     {
-        // $pager = \Config\Services::pager();
+        // ------------------------------------------------------------------------
+        // filter query string release book best seller,coming soon and new release
+        // ------------------------------------------------------------------------
+        $release = [
+            'best-seller' => 'best_seller',
+            'coming-soon' => 'coming_soon',
+            'new-release' => 'new_release'
+        ];
+        $get_release = $this->request->getPostGet('release');
+        if ( $get_release ) {
+            $this->model->where($release[$get_release], $release[$get_release]);
+        }
 
-        // $rows = $this->model->paginate(1);
-        // print_r($this->model->paginate(1));
-        // print_r($this->model->pager);
+        // ------------------------------------------------------------------------
+        // limit rows with pagination
+        // ------------------------------------------------------------------------
         $rows = $this->model->paginate(9);
-        $rows_all['pager'] = $this->model->pager->links();
+        $rows_all['link'] = $this->model->pager->links();
+        $rows_all['simple_links'] = $this->model->pager->simpleLinks();
 
+        // ------------------------------------------------------------------------
+        // modification json output value type: String,int,float
+        // ------------------------------------------------------------------------
         foreach ($rows as $key => $value) {
             $rows_all['rows'][] = [
                 'id_book'           => intval($value['id_book']),
@@ -44,8 +59,8 @@ class Books extends ResourceController
                 'jenis_cover'       => $value['jenis_cover'],
             ];
         }
-        print_r($rows_all);
-        // return $this->respond($rows_all,200);
+        // print_r($rows_all);
+        return $this->respond($rows_all,200);
     }
 
     public function create()
