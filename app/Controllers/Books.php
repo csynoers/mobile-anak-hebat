@@ -21,6 +21,13 @@ class Books extends ResourceController
         if ( $get_release ) {
             $this->model->where($release[$get_release], $release[$get_release]);
         }
+        
+        // ------------------------------------------------------------------------
+        // limit rows with orderBy id_book
+        // ------------------------------------------------------------------------
+        $order = empty($this->request->getPostGet('order')) ? 'desc'  : $this->request->getPostGet('order') ;
+        $this->model->orderBy('id_book', $order);
+
         // ------------------------------------------------------------------------
         // limit rows with pagination
         // ------------------------------------------------------------------------
@@ -34,10 +41,7 @@ class Books extends ResourceController
         foreach ($rows as $key => $value) {
             $rows_all['rows'][] = [
                 'id'                => intval($value['id_book']),
-                'unit_usaha'        => [
-                    'id'    => intval($value['id_unit_usaha']),
-                    'rows'  => $this->get_unit_usaha($value['id_unit_usaha'])
-                ],
+                'id_unit_usaha'     => intval($value['id_unit_usaha']),
                 'id_sub_kat_imprint'=> intval($value['id_sub_kat_imprint']),
                 'title'             => $value['title'],
                 'seo'               => $value['seo'],
@@ -64,8 +68,8 @@ class Books extends ResourceController
                 'jenis_cover'       => $value['jenis_cover'],
             ];
         }
-        print_r($rows_all);
-        // return $this->respond($rows_all,200);
+        // print_r($rows_all);
+        return $this->respond($rows_all,200);
     }
 
     public function show($id = NULL)
@@ -98,13 +102,32 @@ class Books extends ResourceController
         foreach ($rows as $key => $value) {
             $rows_all[] = [
                 'id'                => intval($value['id_unit_usaha']),
-                'id_kat_unit_usaha' => intval($value['id_kat_unit_usaha']),
+                'kat_unit_usaha'    => [
+                    'id'    => intval($value['id_kat_unit_usaha']),
+                    'rows'  => $this->get_kat_unit_usaha($value['id_kat_unit_usaha'])
+                ],
                 'title'             => $value['title'],
                 'content'           => $value['content'],
                 'image'             => $value['image'],
                 'date'              => $value['date'],
                 'seo'               => $value['seo'],
                 'disc_value'        => $value['disc_value'],
+            ];
+        }
+
+        return $rows_all;
+    }
+
+    protected function get_kat_unit_usaha($id)
+    {
+        $katUnitUsahaModel = new \App\Models\Kat_unit_usaha_model();
+        $rows = $katUnitUsahaModel->where('id_kat_unit_usaha',$id)->findAll();
+
+        foreach ($rows as $key => $value) {
+            $rows_all[] = [
+                'id'                => intval($value['id_kat_unit_usaha']),
+                'title'             => $value['title'],
+                'seo'               => $value['seo']
             ];
         }
 
