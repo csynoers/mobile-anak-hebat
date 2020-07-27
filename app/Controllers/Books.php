@@ -38,12 +38,14 @@ class Books extends ResourceController
         // ------------------------------------------------------------------------
         // modification json output value type: String,int,float
         // ------------------------------------------------------------------------
+        helper('text');
         foreach ($rows as $key => $value) {
             $rows_all['rows'][] = [
                 'id'                => intval($value['id_book']),
                 'id_unit_usaha'     => intval($value['id_unit_usaha']),
                 'id_sub_kat_imprint'=> intval($value['id_sub_kat_imprint']),
                 'title'             => $value['title'],
+                'titleLimit'        => character_limiter($value['title'], 20),
                 'seo'               => $value['seo'],
                 'id_author'         => $value['id_author'],
                 'isbn'              => $value['isbn'],
