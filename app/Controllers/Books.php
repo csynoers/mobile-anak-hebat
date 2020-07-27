@@ -56,7 +56,7 @@ class Books extends ResourceController
                 'keunggulan'        => $value['keunggulan'],
                 'image'             => [
                     'origin'    => "https://anakhebatindonesia.com/joimg/book/{$value['image']}",
-                    'thumbnail' => file_get_contents("https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}") ? "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}" : "https://via.placeholder.com/100.png?text=no thumbnail",
+                    'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}"
                 ],
                 'stok'              => $value['stok'],
                 'price'             => [
