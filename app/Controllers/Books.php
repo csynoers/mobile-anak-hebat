@@ -85,7 +85,7 @@ class Books extends ResourceController
                 'jenis_cover'       => $value['jenis_cover'],
             ];
         }
-        return $this->respond($rows_all,200);
+        return $this->setResponseAPI($rows_all,200);
     }
 
     public function show($id = NULL)
@@ -143,7 +143,7 @@ class Books extends ResourceController
                 'data' => $msg,
             ];
         }
-        return $this->respond($response, $code);
+        return $this->setResponseAPI($response, $code);
     }
 
     protected function getAuthors($id)
@@ -202,6 +202,17 @@ class Books extends ResourceController
         $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
         return $hasil_rupiah;
      
+    }
+
+    protected function setResponseAPI($body,$statusCode)
+    {
+        $this->response->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+        // echo '<pre>';
+        // print_r($this);
+        // echo '</pre>';
+        return $this->respond($body, $statusCode);
     }
  
 }

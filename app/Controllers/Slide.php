@@ -24,6 +24,17 @@ class Slide extends ResourceController
                 'urutan'    => intval($value['urutan']),
             ];
         }
-        return $this->respond($rows_all,200);
-    } 
+        return $this->setResponseAPI($rows_all,200);
+    }
+    
+    protected function setResponseAPI($body,$statusCode)
+    {
+        $this->response->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+        // echo '<pre>';
+        // print_r($this);
+        // echo '</pre>';
+        return $this->respond($body, $statusCode);
+    }
 }
