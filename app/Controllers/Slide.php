@@ -29,9 +29,16 @@ class Slide extends ResourceController
     
     protected function setResponseAPI($body,$statusCode)
     {
+        $options = [
+            'max-age'  => 1200,
+            's-maxage' => 3600,
+            'etag'     => 'abcde'
+        ];
+        
         $this->response->setHeader('Access-Control-Allow-Origin', '*')
             ->setHeader('Access-Control-Allow-Headers', '*')
-            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+            ->setCache($options);
         // echo '<pre>';
         // print_r($this);
         // echo '</pre>';
