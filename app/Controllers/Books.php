@@ -44,6 +44,7 @@ class Books extends ResourceController
         // ------------------------------------------------------------------------
         helper('text');
         foreach ($rows as $key => $value) {
+            $value['image'] = rawurlencode($value['image']);
             $rows_all['rows'][] = [
                 'id'                => intval($value['id_book']),
                 'id_unit_usaha'     => intval($value['id_unit_usaha']),

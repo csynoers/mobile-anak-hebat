@@ -18,6 +18,7 @@ class Slide extends ResourceController
             ->findAll();
 
         foreach ($rows as $key => $value) {
+            $value['gambar'] = rawurlencode($value['gambar']);
             $rows_all[] = [
                 'id_slide'  => intval($value['id_slide']),
                 'nama'      => $value['nama'],
