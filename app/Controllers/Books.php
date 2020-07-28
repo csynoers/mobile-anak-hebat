@@ -7,6 +7,10 @@ class Books extends ResourceController
     protected $modelName = 'App\Models\Books_model';
     protected $format    = 'json';
 
+    protected function getHttpResponseCode($theURL) {
+        $headers = get_headers($theURL);
+        return substr($headers[0], 9, 3);
+    }
     public function index()
     {
         // ------------------------------------------------------------------------
@@ -56,7 +60,7 @@ class Books extends ResourceController
                 'keunggulan'        => $value['keunggulan'],
                 'image'             => [
                     'origin'    => "https://anakhebatindonesia.com/joimg/book/{$value['image']}",
-                    'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}"
+                    'thumbnail' => intval($this->getHttpResponseCode("https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}")) == 200 ? "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}" : "https://via.placeholder.com/100.png?text=No image"
                 ],
                 'stok'              => $value['stok'],
                 'price'             => [

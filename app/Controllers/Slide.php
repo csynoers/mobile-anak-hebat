@@ -7,6 +7,10 @@ class Slide extends ResourceController
     protected $modelName = 'App\Models\Slide_model';
     protected $format    = 'json';
 
+    protected function getHttpResponseCode($theURL) {
+        $headers = get_headers($theURL);
+        return substr($headers[0], 9, 3);
+    }
     public function index()
     {
         $rows = $this->model
@@ -18,7 +22,7 @@ class Slide extends ResourceController
                 'id_slide'  => intval($value['id_slide']),
                 'nama'      => $value['nama'],
                 'image'     => [
-                    'original' => "https://anakhebatindonesia.com/joimg/slide/{$value['gambar']}"
+                    'original' => intval($this->getHttpResponseCode("https://anakhebatindonesia.com/joimg/slide/{$value['gambar']}")) == 200 ? "https://anakhebatindonesia.com/joimg/slide/{$value['gambar']}" : "https://via.placeholder.com/360x160.png?text=No image",
                 ],
                 'deskripsi' => $value['deskripsi'],
                 'urutan'    => intval($value['urutan']),
