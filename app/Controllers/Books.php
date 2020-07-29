@@ -60,8 +60,8 @@ class Books extends ResourceController
                 'sinopsis'          => $value['sinopsis'],
                 'keunggulan'        => $value['keunggulan'],
                 'image'             => [
-                    'origin'    => "https://anakhebatindonesia.com/joimg/book/{$value['image']}",
-                    'thumbnail' => intval($this->getHttpResponseCode("https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}")) == 200 ? "https://anakhebatindonesia.com/joimg/book/small/small_{$value['image']}" : "https://via.placeholder.com/100.png?text=No image"
+                    'origin'    => "https://anakhebatindonesia.com/joimg/book/". $value['image'],
+                    'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_" . $value['image']
                 ],
                 'stok'              => $value['stok'],
                 'price'             => [

@@ -18,12 +18,11 @@ class Slide extends ResourceController
             ->findAll();
 
         foreach ($rows as $key => $value) {
-            $value['gambar'] = rawurlencode($value['gambar']);
             $rows_all[] = [
                 'id_slide'  => intval($value['id_slide']),
                 'nama'      => $value['nama'],
                 'image'     => [
-                    'original' => intval($this->getHttpResponseCode("https://anakhebatindonesia.com/joimg/slide/{$value['gambar']}")) == 200 ? "https://anakhebatindonesia.com/joimg/slide/{$value['gambar']}" : "https://via.placeholder.com/360x160.png?text=No image",
+                    'original' => "https://anakhebatindonesia.com/joimg/slide/" . rawurlencode($value['gambar']),
                 ],
                 'deskripsi' => $value['deskripsi'],
                 'urutan'    => intval($value['urutan']),
