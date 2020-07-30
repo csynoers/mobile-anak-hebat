@@ -102,6 +102,7 @@ class Books extends ResourceController
         // ------------------------------------------------------------------------
         // modification image value
         // ------------------------------------------------------------------------
+        $get->image = rawurlencode($get->image);
         $get->image = [
             'origin'    => "https://anakhebatindonesia.com/joimg/book/{$get->image}",
             'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$get->image}"
@@ -133,6 +134,14 @@ class Books extends ResourceController
         $get->authors = $this->getAuthors($get->id_author);
         $get->penerbit = $this->getPenerbit($get->id_unit_usaha);
         $get->kategori = $this->getKategori($get->id_sub_kat_imprint);
+        
+        if ($get->stok == 'Y') {
+            $get->stok = "Gudang Anak Hebat Indonesia";
+        }elseif($get->stok == 'S'){
+            $get->stok = "Gudan Supplier";
+        }else{
+            $get->stok = "- Habis -";
+        }
 
         if($get){
             $code = 200;
