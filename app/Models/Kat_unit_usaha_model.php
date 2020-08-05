@@ -7,7 +7,7 @@ class Kat_unit_usaha_model extends Model {
     protected $table = 'kat_unit_usaha';
     protected $primaryKey = 'id_kat_unit_usaha';
  
-    public function getBooks($id = false)
+    public function getKatUnitUsaha($id = false)
     {
         if($id === false){
             return $this->findAll();
@@ -16,17 +16,17 @@ class Kat_unit_usaha_model extends Model {
         }  
     }
      
-    public function insertBooks($data)
+    public function insertKatUnitUsaha($data)
     {
         return $this->db->table($this->table)->insert($data);
     }
  
-    public function updateBooks($data, $id)
+    public function updateKatUnitUsaha($data, $id)
     {
         return $this->db->table($this->table)->update($data, [$this->primaryKey => $id]);
     }
  
-    public function deleteBooks($id)
+    public function deleteKatUnitUsaha($id)
     {
         return $this->db->table($this->table)->delete([$this->primaryKey => $id]);
     }
