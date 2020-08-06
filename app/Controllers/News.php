@@ -10,23 +10,23 @@ class News extends ResourceController
     public function index()
     {
         // ------------------------------------------------------------------------
-        // filter query string release book best seller,coming soon and new release
+        // filter query string by status '1 or 0' 
         // ------------------------------------------------------------------------
-        $release = [
-            'best-seller' => 'best_seller',
-            'coming-soon' => 'coming_soon',
-            'new-release' => 'new_release'
-        ];
-        $get_release = $this->request->getPostGet('release');
-        if ( $get_release ) {
-            $this->model->where($release[$get_release], $release[$get_release]);
+        $this->model->where('status', 1);
+
+        // ------------------------------------------------------------------------
+        // filter query string by category(c) 'article or karir' 
+        // ------------------------------------------------------------------------
+        $get_category = $this->request->getPostGet('c');
+        if ( $get_category ) {
+            $this->model->where('category', $get_category);
         }
         
         // ------------------------------------------------------------------------
-        // limit rows with orderBy id_book
+        // limit rows with orderBy id_articles
         // ------------------------------------------------------------------------
         $order = empty($this->request->getPostGet('order')) ? 'desc'  : $this->request->getPostGet('order') ;
-        $this->model->orderBy('id_book', $order);
+        $this->model->orderBy('id_articles', $order);
 
         // ------------------------------------------------------------------------
         // limit rows with pagination
@@ -36,56 +36,24 @@ class News extends ResourceController
         $rows_all['simple_links'] = $this->model->pager->simpleLinks();
 
         // ------------------------------------------------------------------------
-        // modification json output value type: String,int,float
+        // modification json output value type: intVal(ref::https://www.php.net/manual/en/function.intval.php),rawurlencode(ref::https://www.php.net/manual/en/function.rawurlencode.php)
         // ------------------------------------------------------------------------
-        helper('text');
         foreach ($rows as $key => $value) {
+            // RAW URL Encode image name
             $value['image'] = rawurlencode($value['image']);
+
             $rows_all['rows'][] = [
-                'id'                => intval($value['id_book']),
-                'id_unit_usaha'     => intval($value['id_unit_usaha']),
-                'id_sub_kat_imprint'=> intval($value['id_sub_kat_imprint']),
-                'title'             => $value['title'],
-                'titleLimit'        => character_limiter($value['title'], 20),
-                'seo'               => $value['seo'],
-                'id_author'         => $value['id_author'],
-                'isbn'              => $value['isbn'],
-                'ukuran'            => $value['ukuran'],
-                'kertas_isi'        => $value['kertas_isi'],
-                'tebal'             => intval($value['tebal']),
-                'sinopsis'          => $value['sinopsis'],
-                'keunggulan'        => $value['keunggulan'],
-                'image'             => [
-                    'origin'    => "https://anakhebatindonesia.com/joimg/book/". $value['image'],
-                    'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_" . $value['image']
+                'id'=>intVal($value['id_articles']),
+                'title'=>$value['title'],
+                'content'=>$value['content'],
+                'image'=>[
+                    'origin'    => "https://anakhebatindonesia.com/joimg/articles/". $value['image'],
+                    'thumbnail' => "https://anakhebatindonesia.com/joimg/articles/small/small_" . $value['image']
                 ],
-                'stok'              => $value['stok'],
-                'price'             => [
-                    'idr' => [
-                        'value' => intval($value['harga']),
-                        'text'  => $this->currencyIDR($value['harga']),
-                    ]
-                ],
-                'discount'          => [
-                    'value' => intval($value['diskon']),
-                    'text'  => "{$value['diskon']}%",
-                    'price' => [
-                        'idr' => [
-                            'value'     => $value['harga']-($value['harga']*$value['diskon'])/100,
-                            'text'      => $this->currencyIDR($value['harga']-($value['harga']*$value['diskon'])/100)
-                        ]
-                    ]
-                ],
-                'best_seller'       => $value['best_seller'],
-                'coming_soon'       => $value['coming_soon'],
-                'new_release'       => $value['new_release'],
-                'status'            => $value['status'],
-                'date'              => $value['date'],
-                'weight'             => [
-                    'kg'    => floatval($value['berat']),
-                    'gram'  => floatval($value['berat'])*1000
-                ],
-                'jenis_cover'       => $value['jenis_cover'],
+                'create_at'=>$value['date'],
+                'slug'=>$value['seo'],
+                'category'=>$value['category'],
+                'status'=>$value['status'],
             ];
         }
         return $this->setResponseAPI($rows_all,200);
