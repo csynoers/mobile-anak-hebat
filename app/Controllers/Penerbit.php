@@ -22,17 +22,17 @@ class Penerbit extends ResourceController
             $value['image'] = rawurlencode($value['image']);
 
             $rows_all[] = [
-                'id_unit_usahaPrimary'  => intval($value['id_unit_usaha']),
-                'id_kat_unit_usaha'     => intval($value['id_kat_unit_usaha']),
-                'title'                 => $value['title'],
-                'content'               => $value['content'],
-                'image'                 => [
+                'id'                => intval($value['id_unit_usaha']),
+                'id_kat_unit_usaha' => intval($value['id_kat_unit_usaha']),
+                'title'             => $value['title'],
+                'content'           => $value['content'],
+                'image'             => [
                     'origin'    => "https://anakhebatindonesia.com/joimg/unit_usaha/" . $value['image'],
                     'thumbnail' => "https://anakhebatindonesia.com/joimg/unit_usaha/small/small_" .$value['image']
                 ],
-                'date'                  => $value['date'],
-                'seo'                   => $value['seo'],
-                'disc_value'            => intval($value['disc_value']),
+                'date'              => $value['date'],
+                'seo'               => $value['seo'],
+                'disc_value'        => intval($value['disc_value']),
             ];
         }
         return $this->setResponseAPI($rows_all,200);
