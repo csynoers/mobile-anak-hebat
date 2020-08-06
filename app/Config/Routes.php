@@ -58,6 +58,19 @@ $routes->resource('books');
 // $routes->get('books/remove/(:segment)',  'books::remove/$1');
 // $routes->post('books/delete/(:segment)', 'books::update/$1');
 
+$routes->resource('penerbit');
+// Equivalent to the following:
+// $routes->get('penerbit/new',                'penerbit::new');
+// $routes->post('penerbit/create',            'penerbit::create');
+// $routes->post('penerbit',                   'penerbit::create');   // alias
+// $routes->get('penerbit',                    'penerbit::index');
+// $routes->get('penerbit/show/(:segment)',    'penerbit::show/$1');
+// $routes->get('penerbit/(:segment)',         'penerbit::show/$1');  // alias
+// $routes->get('penerbit/edit/(:segment)',    'penerbit::edit/$1');
+// $routes->post('penerbit/update/(:segment)', 'penerbit::update/$1');
+// $routes->get('penerbit/remove/(:segment)',  'penerbit::remove/$1');
+// $routes->post('penerbit/delete/(:segment)', 'penerbit::update/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

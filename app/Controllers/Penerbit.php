@@ -47,51 +47,34 @@ class Penerbit extends ResourceController
         // ------------------------------------------------------------------------
         $get->image = rawurlencode($get->image);
         $get->image = [
-            'origin'    => "https://anakhebatindonesia.com/joimg/book/{$get->image}",
-            'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$get->image}"
-        ];
-        $get->price = [
-            'idr' => [
-                'value' => intval($get->harga),
-                'text'  => $this->currencyIDR($get->harga),
-            ]
-        ];
-        $get->discount = [
-            'value' => intval($get->diskon),
-            'text'  => "{$get->diskon}%",
-            'price' => [
-                'idr' => [
-                    'value'     => $get->harga-($get->harga*$get->diskon)/100,
-                    'text'      => $this->currencyIDR($get->harga-($get->harga*$get->diskon)/100)
-                ]
-            ]
-        ];
-        $get->weight = [
-            'kg'    => floatval($get->berat),
-            'gram'  => floatval($get->berat)*1000
+            'origin'    => "https://anakhebatindonesia.com/joimg/unit_usaha/{$get->image}",
+            'thumbnail' => "https://anakhebatindonesia.com/joimg/unit_usaha/small/small_{$get->image}"
         ];
 
         // ------------------------------------------------------------------------
-        // get data authors, penerbit and kategori
+        // modification json output value type: int
         // ------------------------------------------------------------------------
-        $get->authors = $this->getAuthors($get->id_author);
-        $get->penerbit = $this->getPenerbit($get->id_unit_usaha);
-        $get->kategori = $this->getKategori($get->id_sub_kat_imprint);
-        
-        if ($get->stok == 'Y') {
-            $get->stok = "Gudang Anak Hebat Indonesia";
-        }elseif($get->stok == 'S'){
-            $get->stok = "Gudan Supplier";
-        }else{
-            $get->stok = "- Habis -";
-        }
+        $get->id_unit_usaha     = intval($get->id_unit_usaha);
+        $get->id_kat_unit_usaha = intval($get->id_kat_unit_usaha);
+        $get->disc_value        = intval($get->disc_value);
+
+        $row = [
+            'id'=> $get->id_unit_usaha,
+            'parent_id'=> $get->id_kat_unit_usaha,
+            'title'=> $get->title,
+            'content'=> $get->content,
+            'image'=> $get->image,
+            'create_at'=> $get->date,
+            'slug'=> $get->seo,
+            'disc_value'=> $get->disc_value
+        ];
 
         if($get){
             $code = 200;
             $response = [
                 'status' => $code,
                 'error' => false,
-                'data' => $get,
+                'data' => $row,
             ];
         } else {
             $code = 401;
