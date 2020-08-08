@@ -35,7 +35,7 @@ class Books extends ResourceController
         // ------------------------------------------------------------------------
         // limit rows with pagination
         // ------------------------------------------------------------------------
-        $rows = $this->model->paginate(9);
+        $rows = $this->model->paginate( empty($this->request->getPostGet('limit')) ? 9  : $this->request->getPostGet('limit') );
         $rows_all['link'] = $this->model->pager->links();
         $rows_all['simple_links'] = $this->model->pager->simpleLinks();
 
