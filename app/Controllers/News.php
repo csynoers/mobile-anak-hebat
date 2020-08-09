@@ -45,7 +45,7 @@ class News extends ResourceController
             $rows_all['rows'][] = [
                 'id'=>intVal($value['id_articles']),
                 'title'=>$value['title'],
-                'content'=>$value['content'],
+                'content'=>strip_tags($value['content']),
                 'image'=>[
                     'origin'    => "https://anakhebatindonesia.com/joimg/articles/". $value['image'],
                     'thumbnail' => "https://anakhebatindonesia.com/joimg/articles/small/small_" . $value['image']
