@@ -68,8 +68,8 @@ class News extends ResourceController
         // ------------------------------------------------------------------------
         $get->image = rawurlencode($get->image);
         $get->image = [
-            'origin'    => "https://anakhebatindonesia.com/joimg/book/{$get->image}",
-            'thumbnail' => "https://anakhebatindonesia.com/joimg/book/small/small_{$get->image}"
+            'origin'    => "https://anakhebatindonesia.com/joimg/articles/{$get->image}",
+            'thumbnail' => "https://anakhebatindonesia.com/joimg/articles/small/small_{$get->image}"
         ];
 
         if($get){
