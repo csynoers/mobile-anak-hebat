@@ -71,6 +71,19 @@ $routes->resource('penerbit');
 // $routes->get('penerbit/remove/(:segment)',  'penerbit::remove/$1');
 // $routes->post('penerbit/delete/(:segment)', 'penerbit::update/$1');
 
+$routes->resource('news');
+// Equivalent to the following:
+// $routes->get('news/new',                'news::new');
+// $routes->post('news/create',            'news::create');
+// $routes->post('news',                   'news::create');   // alias
+// $routes->get('news',                    'news::index');
+// $routes->get('news/show/(:segment)',    'news::show/$1');
+// $routes->get('news/(:segment)',         'news::show/$1');  // alias
+// $routes->get('news/edit/(:segment)',    'news::edit/$1');
+// $routes->post('news/update/(:segment)', 'news::update/$1');
+// $routes->get('news/remove/(:segment)',  'news::remove/$1');
+// $routes->post('news/delete/(:segment)', 'news::update/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing
