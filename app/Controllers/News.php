@@ -71,6 +71,7 @@ class News extends ResourceController
             'origin'    => "https://anakhebatindonesia.com/joimg/articles/{$get->image}",
             'thumbnail' => "https://anakhebatindonesia.com/joimg/articles/small/small_{$get->image}"
         ];
+        $get->create_at = $get->date;
 
         if($get){
             $code = 200;
