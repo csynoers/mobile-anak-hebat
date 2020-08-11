@@ -7,7 +7,7 @@ class Sub_kat_imprint_model extends Model {
     protected $table = 'sub_kat_imprint';
     protected $primaryKey = 'id_sub_kat_imprint';
  
-    public function getKategori($id = false)
+    public function getSubKategori($id = false)
     {
         if($id === false){
             return $this->findAll();

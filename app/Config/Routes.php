@@ -71,6 +71,19 @@ $routes->resource('penerbit');
 // $routes->get('penerbit/remove/(:segment)',  'penerbit::remove/$1');
 // $routes->post('penerbit/delete/(:segment)', 'penerbit::update/$1');
 
+$routes->resource('kategori');
+// Equivalent to the following:
+// $routes->get('kategori/new',                'kategori::new');
+// $routes->post('kategori/create',            'kategori::create');
+// $routes->post('kategori',                   'kategori::create');   // alias
+// $routes->get('kategori',                    'kategori::index');
+// $routes->get('kategori/show/(:segment)',    'kategori::show/$1');
+// $routes->get('kategori/(:segment)',         'kategori::show/$1');  // alias
+// $routes->get('kategori/edit/(:segment)',    'kategori::edit/$1');
+// $routes->post('kategori/update/(:segment)', 'kategori::update/$1');
+// $routes->get('kategori/remove/(:segment)',  'kategori::remove/$1');
+// $routes->post('kategori/delete/(:segment)', 'kategori::update/$1');
+
 $routes->resource('news');
 // Equivalent to the following:
 // $routes->get('news/new',                'news::new');
