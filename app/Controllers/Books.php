@@ -25,6 +25,14 @@ class Books extends ResourceController
         if ( $get_release ) {
             $this->model->where($release[$get_release], $release[$get_release]);
         }
+
+        // ------------------------------------------------------------------------
+        // filter query string by category
+        // ------------------------------------------------------------------------
+        $get_category = $this->request->getPostGet('c');
+        if ( $get_category ) {
+            $this->model->where('id_sub_kat_imprint', $get_category);
+        }
         
         // ------------------------------------------------------------------------
         // limit rows with orderBy id_book
