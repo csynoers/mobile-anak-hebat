@@ -7,7 +7,7 @@ class Author_model extends Model {
     protected $table = 'author';
     protected $primaryKey = 'id_author';
  
-    public function getAuthor($id = false)
+    public function get($id = false)
     {
         if($id === false){
             return $this->findAll();

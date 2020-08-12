@@ -58,6 +58,19 @@ $routes->resource('books');
 // $routes->get('books/remove/(:segment)',  'books::remove/$1');
 // $routes->post('books/delete/(:segment)', 'books::update/$1');
 
+$routes->resource('authors');
+// Equivalent to the following:
+// $routes->get('authors/new',                'authors::new');
+// $routes->post('authors/create',            'authors::create');
+// $routes->post('authors',                   'authors::create');   // alias
+// $routes->get('authors',                    'authors::index');
+// $routes->get('authors/show/(:segment)',    'authors::show/$1');
+// $routes->get('authors/(:segment)',         'authors::show/$1');  // alias
+// $routes->get('authors/edit/(:segment)',    'authors::edit/$1');
+// $routes->post('authors/update/(:segment)', 'authors::update/$1');
+// $routes->get('authors/remove/(:segment)',  'authors::remove/$1');
+// $routes->post('authors/delete/(:segment)', 'authors::update/$1');
+
 $routes->resource('penerbit');
 // Equivalent to the following:
 // $routes->get('penerbit/new',                'penerbit::new');
