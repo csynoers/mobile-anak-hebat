@@ -46,6 +46,7 @@ class Authors extends ResourceController
             'origin'    => "https://anakhebatindonesia.com/joimg/author/{$get->image}",
             'thumbnail' => "https://anakhebatindonesia.com/joimg/author/small/small_{$get->image}"
         ];
+        $get->title = $get->name;
 
         if($get){
             $code = 200;
