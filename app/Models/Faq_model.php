@@ -7,7 +7,7 @@ class Faq_model extends Model {
     protected $table = 'faq';
     protected $primaryKey = 'id_faq';
  
-    public function get($id = false)
+    public function getFaq($id = false)
     {
         if($id === false){
             return $this->findAll();
@@ -16,17 +16,17 @@ class Faq_model extends Model {
         }  
     }
      
-    public function insert($data)
+    public function insertFaq($data)
     {
         return $this->db->table($this->table)->insert($data);
     }
  
-    public function update($data, $id)
+    public function updateFaq($data, $id)
     {
         return $this->db->table($this->table)->update($data, [$this->primaryKey => $id]);
     }
  
-    public function delete($id)
+    public function deleteFaq($id)
     {
         return $this->db->table($this->table)->delete([$this->primaryKey => $id]);
     }

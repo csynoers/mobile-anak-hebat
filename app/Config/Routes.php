@@ -110,6 +110,19 @@ $routes->resource('news');
 // $routes->get('news/remove/(:segment)',  'news::remove/$1');
 // $routes->post('news/delete/(:segment)', 'news::update/$1');
 
+$routes->resource('faqs');
+// Equivalent to the following:
+// $routes->get('faqs/new',                'faqs::new');
+// $routes->post('faqs/create',            'faqs::create');
+// $routes->post('faqs',                   'faqs::create');   // alias
+// $routes->get('faqs',                    'faqs::index');
+// $routes->get('faqs/show/(:segment)',    'faqs::show/$1');
+// $routes->get('faqs/(:segment)',         'faqs::show/$1');  // alias
+// $routes->get('faqs/edit/(:segment)',    'faqs::edit/$1');
+// $routes->post('faqs/update/(:segment)', 'faqs::update/$1');
+// $routes->get('faqs/remove/(:segment)',  'faqs::remove/$1');
+// $routes->post('faqs/delete/(:segment)', 'faqs::update/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing
