@@ -137,8 +137,8 @@ $routes->resource('profil');
 // $routes->post('profil/delete/(:segment)', 'profil::update/$1');
 
 // $routes->resource('modul');
+$routes->add('modul/contact',                'modul::contact');
 // Equivalent to the following:
-$routes->get('modul/contact',                'modul::contact');
 // $routes->get('modul/new',                'modul::new');
 // $routes->post('modul/create',            'modul::create');
 // $routes->post('modul',                   'modul::create');   // alias
