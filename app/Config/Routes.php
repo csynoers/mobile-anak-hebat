@@ -123,6 +123,19 @@ $routes->resource('faqs');
 // $routes->get('faqs/remove/(:segment)',  'faqs::remove/$1');
 // $routes->post('faqs/delete/(:segment)', 'faqs::update/$1');
 
+$routes->resource('profil');
+// Equivalent to the following:
+// $routes->get('profil/new',                'profil::new');
+// $routes->post('profil/create',            'profil::create');
+// $routes->post('profil',                   'profil::create');   // alias
+// $routes->get('profil',                    'profil::index');
+// $routes->get('profil/show/(:segment)',    'profil::show/$1');
+// $routes->get('profil/(:segment)',         'profil::show/$1');  // alias
+// $routes->get('profil/edit/(:segment)',    'profil::edit/$1');
+// $routes->post('profil/update/(:segment)', 'profil::update/$1');
+// $routes->get('profil/remove/(:segment)',  'profil::remove/$1');
+// $routes->post('profil/delete/(:segment)', 'profil::update/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

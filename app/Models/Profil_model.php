@@ -7,7 +7,7 @@ class Profil_model extends Model {
     protected $table = 'profil';
     protected $primaryKey = 'id_profil';
  
-    public function get($id = false)
+    public function getProfil($id = false)
     {
         if($id === false){
             return $this->findAll();
@@ -16,17 +16,17 @@ class Profil_model extends Model {
         }  
     }
      
-    public function insert($data)
+    public function insertProfil($data)
     {
         return $this->db->table($this->table)->insert($data);
     }
  
-    public function update($data, $id)
+    public function updateProfil($data, $id)
     {
         return $this->db->table($this->table)->update($data, [$this->primaryKey => $id]);
     }
  
-    public function delete($id)
+    public function deleteProfil($id)
     {
         return $this->db->table($this->table)->delete([$this->primaryKey => $id]);
     }
