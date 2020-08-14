@@ -18,7 +18,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
-$routes->setTranslateURIDashes(false);
+$routes->setTranslateURIDashes(true);
 $routes->set404Override();
 $routes->setAutoRoute(true);
 
@@ -136,8 +136,7 @@ $routes->resource('profil');
 // $routes->get('profil/remove/(:segment)',  'profil::remove/$1');
 // $routes->post('profil/delete/(:segment)', 'profil::update/$1');
 
-// $routes->resource('modul');
-$routes->add('modul/contact',                'modul::contact');
+$routes->resource('modul');
 // Equivalent to the following:
 // $routes->get('modul/new',                'modul::new');
 // $routes->post('modul/create',            'modul::create');
@@ -150,6 +149,7 @@ $routes->add('modul/contact',                'modul::contact');
 // $routes->get('modul/remove/(:segment)',  'modul::remove/$1');
 // $routes->post('modul/delete/(:segment)', 'modul::update/$1');
 
+$routes->get('contact', 'modul::contact');
 /**
  * --------------------------------------------------------------------
  * Additional Routing
