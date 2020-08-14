@@ -136,6 +136,20 @@ $routes->resource('profil');
 // $routes->get('profil/remove/(:segment)',  'profil::remove/$1');
 // $routes->post('profil/delete/(:segment)', 'profil::update/$1');
 
+// $routes->resource('modul');
+// Equivalent to the following:
+$routes->get('modul/contact',                'modul::contact');
+// $routes->get('modul/new',                'modul::new');
+// $routes->post('modul/create',            'modul::create');
+// $routes->post('modul',                   'modul::create');   // alias
+// $routes->get('modul',                    'modul::index');
+// $routes->get('modul/show/(:segment)',    'modul::show/$1');
+// $routes->get('modul/(:segment)',         'modul::show/$1');  // alias
+// $routes->get('modul/edit/(:segment)',    'modul::edit/$1');
+// $routes->post('modul/update/(:segment)', 'modul::update/$1');
+// $routes->get('modul/remove/(:segment)',  'modul::remove/$1');
+// $routes->post('modul/delete/(:segment)', 'modul::update/$1');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

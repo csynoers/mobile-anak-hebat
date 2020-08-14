@@ -7,7 +7,7 @@ class Modul_model extends Model {
     protected $table = 'modul';
     protected $primaryKey = 'id_modul';
  
-    public function get($id = false)
+    public function getModul($id = false)
     {
         if($id === false){
             return $this->findAll();
@@ -16,17 +16,17 @@ class Modul_model extends Model {
         }  
     }
      
-    public function insert($data)
+    public function insertModul($data)
     {
         return $this->db->table($this->table)->insert($data);
     }
  
-    public function update($data, $id)
+    public function updateModul($data, $id)
     {
         return $this->db->table($this->table)->update($data, [$this->primaryKey => $id]);
     }
  
-    public function delete($id)
+    public function deleteModul($id)
     {
         return $this->db->table($this->table)->delete([$this->primaryKey => $id]);
     }
