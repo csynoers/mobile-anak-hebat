@@ -149,7 +149,8 @@ $routes->resource('modul');
 // $routes->get('modul/remove/(:segment)',  'modul::remove/$1');
 // $routes->post('modul/delete/(:segment)', 'modul::update/$1');
 
-$routes->get('contact', 'modul::contact');
+$routes->resource('contact', ['controller' =>'modul::contact']);
+// $routes->get('contact', 'modul::contact');
 /**
  * --------------------------------------------------------------------
  * Additional Routing
