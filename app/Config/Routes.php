@@ -151,6 +151,8 @@ $routes->resource('modul');
 
 $routes->resource('contact', ['controller' =>'modul::contact']);
 // $routes->get('contact', 'modul::contact');
+
+// $routes->get('ongkir', 'Ongkir::index');
 /**
  * --------------------------------------------------------------------
  * Additional Routing
