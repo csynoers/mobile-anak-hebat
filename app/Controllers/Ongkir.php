@@ -1,7 +1,9 @@
 <?php namespace App\Controllers;
+use CodeIgniter\RESTful\ResourceController;
 
-class Ongkir extends BaseController
+class Ongkir extends ResourceController
 {
+	protected $format    = 'json';
 	/**
      * List of Supported Account Types
      *
@@ -104,7 +106,8 @@ class Ongkir extends BaseController
 		// print_r($data);
 		// echo '</pre>';
 		// return $data;
-		echo json_encode($data);
+		// echo json_encode($data);
+		return $this->setResponseAPI($data, 200);
 	}
 
 	public function getCost($data) {
@@ -139,5 +142,18 @@ class Ongkir extends BaseController
 	}
 
 	//--------------------------------------------------------------------
-
+    protected function setResponseAPI($body,$statusCode)
+    {
+        $options = [
+            'max-age'  => 1200,
+            's-maxage' => 3600,
+            'etag'     => 'abcde'
+        ];
+        
+        $this->response->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+            // ->setCache($options);
+        return $this->respond($body, $statusCode);
+    }
 }
