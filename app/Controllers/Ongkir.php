@@ -79,7 +79,7 @@ class Ongkir extends ResourceController
 
 
 		$data= [];
-		foreach ($this->supportedCouriers['starter'] as $keyCourier => $valueCourier) {
+		foreach ($this->supportedCouriers['pro'] as $keyCourier => $valueCourier) {
 			$configGetCost= [
 				'destination'=> $destination,
 				'weight'=> $weight,
@@ -114,7 +114,7 @@ class Ongkir extends ResourceController
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+		CURLOPT_URL => "https://pro.rajaongkir.com/api/cost",
 		CURLOPT_RETURNTRANSFER => true,
 		CURLOPT_ENCODING => "",
 		CURLOPT_MAXREDIRS => 10,
