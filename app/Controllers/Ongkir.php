@@ -110,8 +110,13 @@ class Ongkir extends ResourceController
 		return $this->setResponseAPI($data, 200);
 	}
 
-	public function getCost($data) {
-		$curl = curl_init();
+	public function getCost($data=NULL) {
+        $curl = curl_init();
+        $CURLOPT_POSTFIELDS = "origin=501&destination=574&weight=1700&courier=jne";
+
+        if ( $data ) {
+            # code...
+        }
 
 		curl_setopt_array($curl, array(
 		CURLOPT_URL => "https://pro.rajaongkir.com/api/cost",
@@ -121,8 +126,8 @@ class Ongkir extends ResourceController
 		CURLOPT_TIMEOUT => 30,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		CURLOPT_CUSTOMREQUEST => "POST",
-		CURLOPT_POSTFIELDS => "origin=501&destination={$data['destination']}&weight={$data['weight']}&courier={$data['courier']}",
-		// CURLOPT_POSTFIELDS => "origin=501&destination=114&weight=1700&courier=jne",
+		// CURLOPT_POSTFIELDS => "origin=501&destination={$data['destination']}&weight={$data['weight']}&courier={$data['courier']}",
+		CURLOPT_POSTFIELDS => $CURLOPT_POSTFIELDS,
 		CURLOPT_HTTPHEADER => array(
 			"content-type: application/x-www-form-urlencoded",
 			"key: db98dd4f0d799996b1cc75ad62fd5564"
@@ -135,11 +140,53 @@ class Ongkir extends ResourceController
 		curl_close($curl);
 
 		if ($err) {
-			return "cURL Error #:" . $err;
+			echo "cURL Error #:" . $err;
 		} else {
-			return $response;
+			echo $response;
 		}
-	}
+    }
+
+    public function subdistrict($city=39) {
+        if ( ! empty($_GET['city']) ) 
+            $city = $_GET['city'];
+            
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://pro.rajaongkir.com/api/subdistrict?city={$city}",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "key: db98dd4f0d799996b1cc75ad62fd5564"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+			$data = "cURL Error #:" . $err;
+		} else {
+			$data = $response;
+        }
+
+        return $this->setResponseAPI(json_decode($data), 200);
+    }
+
+    public function subdistrictall() {
+        $data = [];
+        foreach ($this->city() as $key => $value) {
+            $data[] = $this->subdistrict($value->city_id);
+        }
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
 
 	//--------------------------------------------------------------------
     protected function setResponseAPI($body,$statusCode)
