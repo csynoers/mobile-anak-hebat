@@ -37,31 +37,25 @@ class Ongkir extends ResourceController
             'rpx',
         ],
         'pro'     => [
-            'jne',
             'pos',
             'tiki',
-            'rpx',
-            'esl',
-            'pcp',
-            'pandu',
+            'jne',
+            // 'pcp',
+            // 'esl',
+            // 'rpx',
+            // 'pandu',
             'wahana',
-            'sicepat',
-            'j&t',
-            'pahala',
-            'cahaya',
-            'sap',
+            'jnt',
+            // 'pahala',
+            // 'cahaya',
+            // 'sap',
             'jet',
-            'indah',
-            'slis',
-            'expedito*',
-            'dse',
-            'first',
-            'ncs',
-            'star',
-            'lion',
-            'ninja-express',
-            'idl',
-            'rex',
+            // 'indah',
+            // 'dse',
+            // 'slis',
+            // 'first',
+            // 'ncs',
+            // 'star'
         ],
 	];
 	
@@ -69,14 +63,15 @@ class Ongkir extends ResourceController
 	{
 		$this->getCost();
 	}
-	public function cost_all($destination=114,$weight=1700)
+	public function cost_all($destination=574,$weight=1700)
 	{
-		if ( ! empty($_GET['destination']) ) 
-			$destination = $_GET['destination'];
-
-		if ( ! empty($_GET['weight']) ) 
-			$weight = $_GET['weight'];
-
+        if ( empty($_GET['destination']) && empty($_GET['weight']) ) {
+            echo 'error. destination and weight not be empty';
+            die();
+        }
+		
+        $destination = $_GET['destination'];
+        $weight = $_GET['weight'];
 
 		$data= [];
 		foreach ($this->supportedCouriers['pro'] as $keyCourier => $valueCourier) {
@@ -84,39 +79,36 @@ class Ongkir extends ResourceController
 				'destination'=> $destination,
 				'weight'=> $weight,
 				'courier'=> $valueCourier,
-			];
-			
+            ];
 			$kurir = json_decode($this->getCost($configGetCost))->rajaongkir->results;
 			foreach ($kurir as $key_kurir => $value_kurir) {
-				$code= strtoupper( $value_kurir->code );
 				foreach ($value_kurir->costs as $key_costs => $value_costs) {
-					$service= $value_costs->service;
 					foreach ($value_costs->cost as $key_cost => $value_cost) {
 						$data[]= [
-							'code'=> $code,
-							'service'=> $service,
-							'etd'=> $value_cost->etd .($code=='POS'? null : ' HARI' ),
-							'value'=> $value_cost->value,
+							'code'=> $value_kurir->code,
+							'name'=> $value_kurir->name,
+							'service'=> $value_costs->service,
+							'description'=> $value_costs->description,
+                            'value'=> $value_cost->value,
+                            'etd'=> $value_cost->etd,
+                            'note'=> $value_cost->note,
 						];
 					}
 				}
 			}
-		}
-		// echo '<pre>';
-		// print_r($data);
-		// echo '</pre>';
-		// return $data;
-		// echo json_encode($data);
+        }
+
+        // shorting array by etd value
+        usort($data, function($a, $b) {
+            return $a['etd'] <=> $b['etd'];
+        });
+
 		return $this->setResponseAPI($data, 200);
 	}
 
-	public function getCost($data=NULL) {
+	public function getCost($data) {
         $curl = curl_init();
-        $CURLOPT_POSTFIELDS = "origin=501&destination=574&weight=1700&courier=jne";
-
-        if ( $data ) {
-            # code...
-        }
+        $CURLOPT_POSTFIELDS = "origin=501&originType=city&destination=574&destinationType=subdistrict&weight=1700&courier=jne";
 
 		curl_setopt_array($curl, array(
 		CURLOPT_URL => "https://pro.rajaongkir.com/api/cost",
@@ -126,8 +118,7 @@ class Ongkir extends ResourceController
 		CURLOPT_TIMEOUT => 30,
 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		CURLOPT_CUSTOMREQUEST => "POST",
-		// CURLOPT_POSTFIELDS => "origin=501&destination={$data['destination']}&weight={$data['weight']}&courier={$data['courier']}",
-		CURLOPT_POSTFIELDS => $CURLOPT_POSTFIELDS,
+		CURLOPT_POSTFIELDS => "origin=501&originType=city&destination={$data['destination']}&destinationType=subdistrict&weight={$data['weight']}&courier={$data['courier']}",
 		CURLOPT_HTTPHEADER => array(
 			"content-type: application/x-www-form-urlencoded",
 			"key: db98dd4f0d799996b1cc75ad62fd5564"
@@ -142,7 +133,7 @@ class Ongkir extends ResourceController
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
-			echo $response;
+			return $response;
 		}
     }
 
