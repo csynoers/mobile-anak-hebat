@@ -57,6 +57,13 @@ class Ongkir extends ResourceController
             // 'ncs',
             // 'star'
         ],
+        'international' => [
+            'pos',
+            'tiki',
+            'slis',
+            'expedito',
+            'jne',
+        ],
 	];
 	
 	public function cost()
@@ -100,7 +107,7 @@ class Ongkir extends ResourceController
 
         // shorting array by etd value
         usort($data, function($a, $b) {
-            return $a['etd'] <=> $b['etd'];
+            return $a['value'] <=> $b['value'];
         });
 
 		return $this->setResponseAPI($data, 200);
@@ -179,6 +186,151 @@ class Ongkir extends ResourceController
         echo '</pre>';
     }
 
+    /* InternationalOrigin */
+    public function international_origin() {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://pro.rajaongkir.com/api/v2/internationalOrigin",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "key: db98dd4f0d799996b1cc75ad62fd5564"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            // $this->setResponseAPI(json_decode($data), 200);
+        } else {
+            // echo $response;
+            return $this->setResponseAPI(json_decode($response), 200);
+        }
+    }
+
+    /* InternationalDestination */
+    public function international_destination() {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://pro.rajaongkir.com/api/v2/internationalDestination",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "key: db98dd4f0d799996b1cc75ad62fd5564"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            // $this->setResponseAPI(json_decode($data), 200);
+        } else {
+            // echo $response;
+            return $this->setResponseAPI(json_decode($response), 200);
+        }
+    }
+
+    /* InternationalCost */
+    protected function international_cost($data) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://pro.rajaongkir.com/api/v2/internationalCost",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "origin=39&destination={$data['destination']}&weight={$data['weight']}&courier={$data['courier']}",
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded",
+            "key: db98dd4f0d799996b1cc75ad62fd5564"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return "cURL Error #:" . $err;
+            // $this->setResponseAPI(json_decode($data), 200);
+        } else {
+            // echo $response;
+            return $this->isJson($response) ? $response : '{"rajaongkir":{"results":[]}}' ;
+        }
+    }
+
+    /* InternationalCostALL */
+    public function international_cost_all($destination=108,$weight=1400)
+	{
+        if ( empty($_GET['destination']) && empty($_GET['weight']) ) {
+            echo 'error. destination and weight not be empty';
+            die();
+        }
+		
+        $destination = $_GET['destination'];
+        $weight = $_GET['weight'];
+
+		$data= [];
+		foreach ($this->supportedCouriers['international'] as $keyCourier => $valueCourier) {
+			$configGetCost= [
+				'destination'=> $destination,
+				'weight'=> $weight,
+				'courier'=> $valueCourier,
+            ];
+            $kurir = json_decode($this->international_cost($configGetCost))->rajaongkir;
+
+            if ( $kurir->currency ) {
+                $currency = $kurir->currency->value;
+            }
+
+            // $data[] = $kurir;
+			foreach ($kurir->results as $key_kurir => $value_kurir) {
+                foreach ($value_kurir->costs as $key_costs => $value_costs) {
+                    $data[]= [
+                        'code'=> $value_kurir->code,
+                        'name'=> $value_kurir->name,
+                        'service'=> $value_costs->service,
+                        'cost'=> ($value_costs->currency=='USD') ? ($value_costs->cost*$currency) : $value_costs->cost ,
+                        'currency'=> 'IDR' ,
+                        'etd'=> $value_costs->etd,
+                    ];
+				}
+			}
+        }
+
+        // shorting array by cost
+        usort($data, function($a, $b) {
+            return $a['cost'] <=> $b['cost'];
+        });
+
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+		return $this->setResponseAPI($data, 200);
+	}
+
 	//--------------------------------------------------------------------
     protected function setResponseAPI($body,$statusCode)
     {
@@ -193,5 +345,10 @@ class Ongkir extends ResourceController
             ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
             // ->setCache($options);
         return $this->respond($body, $statusCode);
+    }
+
+    protected function isJson($str) {
+        $json = json_decode($str);
+        return $json && $str != $json;
     }
 }
