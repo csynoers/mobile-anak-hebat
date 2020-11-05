@@ -394,7 +394,7 @@ class Ongkir extends ResourceController
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "waybill={$_GET['waybill']}&={$_GET['courier']}",
+        CURLOPT_POSTFIELDS => "waybill={$_GET['waybill']}&courier={$_GET['courier']}",
         CURLOPT_HTTPHEADER => array(
             "content-type: application/x-www-form-urlencoded",
             "key: db98dd4f0d799996b1cc75ad62fd5564"
