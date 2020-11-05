@@ -329,7 +329,71 @@ class Ongkir extends ResourceController
         // print_r($data);
         // echo '</pre>';
 		return $this->setResponseAPI($data, 200);
-	}
+    
+    }
+
+    // get List ciurier waybill
+    public function waybill_couriers() {
+        $couriers = [
+            'pos' => 'POS Indonesia (POS)',
+            'tiki' => 'Citra Van Titipan Kilat (TIKI)',
+            'jne' => 'Jalur Nugraha Ekakurir (JNE)',
+            // 'pcp' => '',
+            // 'esl',
+            // 'rpx',
+            // 'pandu',
+            'wahana' => 'Wahana Prestasi Logistik (WAHANA)',
+            'jnt' => 'J&T Express (J&T)',
+            // 'pahala',
+            // 'cahaya',
+            // 'sap',
+            'jet' => 'JET Express (JET)',
+            // 'indah',
+            // 'dse',
+            // 'slis',
+            // 'first',
+            // 'ncs',
+            // 'star'
+        ];
+
+        return $this->setResponseAPI($couriers,200);
+    }
+    
+    /* Waybill */
+    public function waybill() {
+        $curl = curl_init();
+
+        if ( empty($_GET['waybill']) && empty($_GET['courier']) ) {
+            echo 'error. No Resi dan Kurir tidak boleh kosong';
+            die();
+        }
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "waybill={$_GET['waybill']}&={$_GET['courier']}",
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded",
+            "key: db98dd4f0d799996b1cc75ad62fd5564"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return $this->setResponseAPI($err,400);
+        } else {
+            return $this->setResponseAPI(json_decode($response),200);
+        }
+    }
 
 	//--------------------------------------------------------------------
     protected function setResponseAPI($body,$statusCode)
