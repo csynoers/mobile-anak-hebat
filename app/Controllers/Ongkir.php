@@ -335,19 +335,31 @@ class Ongkir extends ResourceController
     // get List ciurier waybill
     public function waybill_couriers() {
         $couriers = [
-            'pos' => 'POS Indonesia (POS)',
-            'tiki' => 'Citra Van Titipan Kilat (TIKI)',
-            'jne' => 'Jalur Nugraha Ekakurir (JNE)',
+            [
+                'pos' => 'POS Indonesia (POS)',
+            ],
+            [
+                'tiki' => 'Citra Van Titipan Kilat (TIKI)',
+            ],
+            [
+                'jne' => 'Jalur Nugraha Ekakurir (JNE)',
+            ],
             // 'pcp' => '',
             // 'esl',
             // 'rpx',
             // 'pandu',
-            'wahana' => 'Wahana Prestasi Logistik (WAHANA)',
-            'jnt' => 'J&T Express (J&T)',
+            [
+                'wahana' => 'Wahana Prestasi Logistik (WAHANA)',
+            ],
+            [
+                'jnt' => 'J&T Express (J&T)',
+            ],
             // 'pahala',
             // 'cahaya',
             // 'sap',
-            'jet' => 'JET Express (JET)',
+            [
+                'jet' => 'JET Express (JET)',
+            ]
             // 'indah',
             // 'dse',
             // 'slis',
