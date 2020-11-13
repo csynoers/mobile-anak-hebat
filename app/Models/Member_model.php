@@ -16,17 +16,21 @@ class Member_model extends Model {
         }  
     }
      
-    public function insert($data)
+    public function insertThis($data)
     {
         return $this->db->table($this->table)->insert($data);
     }
  
-    public function update($data, $id)
+    public function updateThis($data=NULL, $id=NULL)
     {
-        return $this->db->table($this->table)->update($data, [$this->primaryKey => $id]);
+        $where = [$this->primaryKey => $id];
+        if ( is_array($id) ) {
+            $where = $id;
+        }
+        return $this->db->table($this->table)->update($data, $where);
     }
  
-    public function delete($id)
+    public function deleteThis($id)
     {
         return $this->db->table($this->table)->delete([$this->primaryKey => $id]);
     }

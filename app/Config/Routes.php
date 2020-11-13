@@ -153,6 +153,19 @@ $routes->resource('contact', ['controller' =>'modul::contact']);
 // $routes->get('contact', 'modul::contact');
 
 // $routes->get('ongkir', 'Ongkir::index');
+
+$routes->resource('users');
+// Equivalent to the following:
+// $routes->get('users/new',                'users::new');
+// $routes->post('users/create',            'users::create');
+// $routes->post('users',                   'users::create');   // alias
+// $routes->get('users',                    'users::index');
+// $routes->get('users/show/(:segment)',    'users::show/$1');
+// $routes->get('users/(:segment)',         'users::show/$1');  // alias
+// $routes->get('users/edit/(:segment)',    'users::edit/$1');
+// $routes->post('users/update/(:segment)', 'users::update/$1');
+// $routes->get('users/remove/(:segment)',  'users::remove/$1');
+// $routes->post('users/delete/(:segment)', 'users::update/$1');
 /**
  * --------------------------------------------------------------------
  * Additional Routing
