@@ -19,7 +19,8 @@ class Books extends ResourceController
         $release = [
             'best-seller' => 'best_seller',
             'coming-soon' => 'coming_soon',
-            'new-release' => 'new_release'
+            'new-release' => 'new_release',
+            'penawaran-khusus' => 'promo'
         ];
         $get_release = $this->request->getPostGet('release');
         if ( $get_release ) {
