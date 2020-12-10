@@ -40,6 +40,7 @@ class Ongkir extends ResourceController
             'pos',
             'tiki',
             'jne',
+            'sicepat',
             // 'pcp',
             // 'esl',
             // 'rpx',
