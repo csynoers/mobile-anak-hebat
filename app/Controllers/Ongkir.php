@@ -348,7 +348,7 @@ class Ongkir extends ResourceController
                 'code' => 'jne',
                 'name' => 'Jalur Nugraha Ekakurir (JNE)',
             ],
-            'sicepat' => [
+            [
                 'code' => 'sicepat',
                 'name' => 'SiCepat Express (SICEPAT)',
             ],
