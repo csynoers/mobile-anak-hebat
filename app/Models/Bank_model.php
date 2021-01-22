@@ -16,17 +16,17 @@ class Bank_model extends Model {
         }  
     }
      
-    public function insert($data)
+    public function insertBank($data)
     {
         return $this->db->table($this->table)->insert($data);
     }
  
-    public function update($data, $id)
+    public function updateBank($data, $id)
     {
         return $this->db->table($this->table)->update($data, [$this->primaryKey => $id]);
     }
  
-    public function delete($id)
+    public function deleteBank($id)
     {
         return $this->db->table($this->table)->delete([$this->primaryKey => $id]);
     }

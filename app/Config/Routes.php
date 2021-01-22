@@ -71,6 +71,19 @@ $routes->resource('authors');
 // $routes->get('authors/remove/(:segment)',  'authors::remove/$1');
 // $routes->post('authors/delete/(:segment)', 'authors::update/$1');
 
+$routes->resource('banks');
+// Equivalent to the following:
+// $routes->get('banks/new',                'banks::new');
+// $routes->post('banks/create',            'banks::create');
+// $routes->post('banks',                   'banks::create');   // alias
+// $routes->get('banks',                    'banks::index');
+// $routes->get('banks/show/(:segment)',    'banks::show/$1');
+// $routes->get('banks/(:segment)',         'banks::show/$1');  // alias
+// $routes->get('banks/edit/(:segment)',    'banks::edit/$1');
+// $routes->post('banks/update/(:segment)', 'banks::update/$1');
+// $routes->get('banks/remove/(:segment)',  'banks::remove/$1');
+// $routes->post('banks/delete/(:segment)', 'banks::update/$1');
+
 $routes->resource('penerbit');
 // Equivalent to the following:
 // $routes->get('penerbit/new',                'penerbit::new');
